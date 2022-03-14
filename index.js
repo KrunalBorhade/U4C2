@@ -98,6 +98,105 @@ const fixedAccSchema = new mongoose.Schema(
 
 const Fixed = mongoose.model("fixed",fixedAccSchema)
 
+// CRUDS 
+
+// User CRUD 
+app.post("/users",async (req, res) => {
+    try{
+        const users = await User.create(req.body)
+        return res.status(200).send(users)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+// Branch Cruds
+app.post("/branchs",async (req, res) => {
+    try{
+        const branch = await Branch.create(req.body)
+        return res.status(200).send(branch)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+// Master Crud 
+app.get("/master",async (req, res) => {
+    try{
+        const master = await Master.find().populate({path:"userId",select:["firstName","middleName","lastName","email","gender","age","address"]}).lean().exec()
+        
+
+        req.send(master)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+//Master Cruds
+app.post("/master",async (req, res) => {
+    try{
+        const master = await Master.create(req.body)
+        return res.status(200).send(master)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+app.get("/master",async (req, res) => {
+    try{
+        const master = await Master.find().populate({path:"userId",select:["firstName","middleName","lastName","email","gender","age","address"]}).lean().exec()
+        
+
+        req.send(master)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+// Saving Cruds
+
+app.post("/saving",async (req, res) => {
+    try{
+        const saving = await Saving.create(req.body)
+        return res.status(200).send(saving)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+
+//Fixed CRUDS
+app.post("/fixed",async (req, res) => {
+    try{
+        const fixed = await Fixed.create(req.body)
+        return res.status(200).send(fixed)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+app.delete("/fixed",async (req, res) => {
+    try{
+        const fixed = await Fixed.findByIdAndDelete(req.params.id).lean().exec()
+        return res.status(200).send(fixed)
+    }
+    catch(err){
+        return res.status(500).send({message: err.message})
+    }
+})
+
+
+
+
+
+
 
 
 
